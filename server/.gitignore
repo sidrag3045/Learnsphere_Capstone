@@ -1,2 +1,12 @@
+# Node modules
 /node_modules
+
+# Environment variables
 /.env
+
+# Sequelize metadata
+src/seeders/*.js
+src/migrations/*.js
+
+# Logs
+.DS_Store
