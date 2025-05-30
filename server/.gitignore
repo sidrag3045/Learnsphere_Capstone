@@ -7,4 +7,6 @@
 # Sequelize metadata
 /src/seeders/*.js
 /src/migrations/*.js
+
+# Ignore build directories
 .DS_Store
