@@ -7,3 +7,4 @@
 # Sequelize metadata
 /src/seeders/*.js
 /src/migrations/*.js
+.DS_Store
