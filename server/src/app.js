@@ -17,8 +17,12 @@ app.get('/', (req, res) => {
   res.send('✅ LearnSphere Server is Running!');
 });
 
-// Additional routes can be added here
-// ....
+// Importing routes
+const authRoutes = require('./routes/auth.routes');
+
+// Using routes
+app.use('/api/auth', authRoutes);
+
 
 // Export app can be used by server.js or other modules. Also for testing purposes
 module.exports = app;
