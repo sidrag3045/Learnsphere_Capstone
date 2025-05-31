@@ -7,6 +7,10 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
+
+// This file initializes Sequelize and loads all models dynamically.
+// It reads all files in the current directory, excluding itself and test files,
+// and imports them as Sequelize models. It also sets up associations if defined in the models.
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -33,6 +37,10 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+// Adding "sequelize" instance and "Sequelize" constructor to the db object
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+// Exporting the db object which contains all models and sequelize instance
 module.exports = db;
