@@ -1,4 +1,4 @@
-const sequelize = require('../config/db');
+const {sequelize} = require('../models/index.js');
 
 // This file is responsible for establishing a connection to the database using Sequelize.
 const loadDatabase = async () => {
