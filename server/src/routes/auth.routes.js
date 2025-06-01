@@ -10,17 +10,12 @@ router.get('/', (req, res) => {
 });
 
 // Register Endpoint
-router.get('/register', (req, res) => {
-    res.status(200).json({
-        message: 'Register endpoint is working!'
-    });
-});
+router.post('/register', register);
 
 // Login Endpoint
-router.get('/login', (req, res) => {
-    res.status(200).json({
-        message: 'Login endpoint is working!'
-    });
-});
+router.post('/login', login);
+
+// Logout Endpoint
+router.post('/logout', logout);
 
 module.exports = router;
