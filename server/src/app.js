@@ -21,10 +21,11 @@ app.get('/', (req, res) => {
 
 // Importing routes
 const authRoutes = require('./routes/auth.routes');
+const courseRoutes = require('./routes/course.routes');
 
 // Using routes
 app.use('/api/auth', authRoutes);
-
+app.use('/api/courses', courseRoutes);
 
 // Export app can be used by server.js or other modules. Also for testing purposes
 module.exports = app;
