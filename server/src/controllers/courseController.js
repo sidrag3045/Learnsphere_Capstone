@@ -64,7 +64,7 @@ const getCoursesByInstructor = async (req, res) => {
   }
 };
 
-const getCourseByInstructorSelf = async (req, res) => {
+const getCoursesByInstructorSelf = async (req, res) => {
     try {
         const instructorId = req.user.id;
         const courses = await getCoursesByInstructorService(instructorId);
@@ -83,5 +83,5 @@ module.exports = {
   updateCourse,
   deleteCourse,
   getCoursesByInstructor,
-  getCourseByInstructorSelf
+  getCoursesByInstructorSelf
 };

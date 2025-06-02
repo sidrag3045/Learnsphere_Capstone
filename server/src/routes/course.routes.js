@@ -7,7 +7,7 @@ const { createCourse,
         updateCourse, 
         deleteCourse,
         getCoursesByInstructor,
-        getCourseByInstructorSelf } = require('../controllers/courseController');
+        getCoursesByInstructorSelf } = require('../controllers/courseController');
 
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
@@ -23,6 +23,15 @@ router.post(
 
 // GET /api/courses - Get all courses
 router.get('/', verifyJWT, getAllCourses);
+
+// GET /api/courses/my - Get courses for instructor created by himself 
+router.get(
+  '/my',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  getCoursesByInstructorSelf
+);
+// also note to make further routes for the my route to add further functionality such as CRUD operations for the instructor's own courses, and any other operations that might be needed for the instructor's courses.
 
 // GET /api/courses/:id - Get a course by ID
 router.get('/:id', verifyJWT, getCourseById);
@@ -50,13 +59,6 @@ router.get(
   getCoursesByInstructor
 );
 
-// GET /api/courses/my - Get courses created by the authenticated instructor
-router.get(
-  '/my',
-  verifyJWT,
-  authorizeRoles('instructor'),
-  getCourseByInstructorSelf
-);
 
 // Additional routes can be added here as needed
 // (e.g., search, sort, filter, etc.)
