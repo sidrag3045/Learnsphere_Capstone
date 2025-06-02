@@ -58,4 +58,7 @@ router.get(
   getCourseByInstructorSelf
 );
 
+// Additional routes can be added here as needed
+// (e.g., search, sort, filter, etc.)
+
 module.exports = router;
