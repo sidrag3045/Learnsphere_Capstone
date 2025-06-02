@@ -5,7 +5,8 @@ const { createCourse,
         getAllCourses, 
         getCourseById, 
         updateCourse, 
-        deleteCourse } = require('../controllers/courseController');
+        deleteCourse,
+        getCoursesByInstructor } = require('../controllers/courseController');
 
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
@@ -39,6 +40,13 @@ router.delete(
   verifyJWT,
   authorizeRoles('instructor'),
   deleteCourse
+);
+
+// GET /api/courses/instructor/:instructorId - Get courses by instructor ID
+router.get(
+  '/instructor/:instructorId',
+  verifyJWT,
+  getCoursesByInstructor
 );
 
 module.exports = router;

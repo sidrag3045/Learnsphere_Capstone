@@ -2,7 +2,8 @@ const { createCourseService,
   getAllCoursesService,
   getCourseByIdService,
   updateCourseService,
-  deleteCourseService
+  deleteCourseService,
+  getCoursesByInstructorService
  } = require('../services/courseService');
 
 const createCourse = async (req, res) => {
@@ -51,10 +52,24 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+const getCoursesByInstructor = async (req, res) => {
+  try {
+    const instructorId = req.params.instructorId;
+    const courses = await getCoursesByInstructorService(instructorId);
+
+    res.status(200).json(courses);
+  } catch (err) {
+    console.error('Fetch courses by instructor error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
 module.exports = {
   createCourse,
   getAllCourses,
   getCourseById,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  getCoursesByInstructor
 };
