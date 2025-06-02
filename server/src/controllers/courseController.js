@@ -64,6 +64,17 @@ const getCoursesByInstructor = async (req, res) => {
   }
 };
 
+const getCourseByInstructorSelf = async (req, res) => {
+    try {
+        const instructorId = req.user.id;
+        const courses = await getCoursesByInstructorService(instructorId);
+    
+        res.status(200).json(courses);
+    } catch (err) {
+        console.error('Fetch courses by self instructor error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
 
 module.exports = {
   createCourse,
@@ -71,5 +82,6 @@ module.exports = {
   getCourseById,
   updateCourse,
   deleteCourse,
-  getCoursesByInstructor
+  getCoursesByInstructor,
+  getCourseByInstructorSelf
 };

@@ -6,7 +6,8 @@ const { createCourse,
         getCourseById, 
         updateCourse, 
         deleteCourse,
-        getCoursesByInstructor } = require('../controllers/courseController');
+        getCoursesByInstructor,
+        getCourseByInstructorSelf } = require('../controllers/courseController');
 
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
@@ -47,6 +48,14 @@ router.get(
   '/instructor/:instructorId',
   verifyJWT,
   getCoursesByInstructor
+);
+
+// GET /api/courses/my - Get courses created by the authenticated instructor
+router.get(
+  '/my',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  getCourseByInstructorSelf
 );
 
 module.exports = router;
