@@ -20,10 +20,10 @@ router.post(
 );
 
 // GET /api/courses - Get all courses
-router.get('/', getAllCourses);
+router.get('/', verifyJWT, getAllCourses);
 
 // GET /api/courses/:id - Get a course by ID
-router.get('/:id', getCourseById);
+router.get('/:id', verifyJWT, getCourseById);
 
 // PUT /api/courses/:id - Update a course by ID
 router.put(
