@@ -29,11 +29,23 @@ const getModuleByIdService = async (id) => {
 };
 
 const updateModuleService = async (id, updateData) => {
-  return await Module.update(updateData, { where: { id } });
+
+  const module = await Module.findByPk(id);
+  if (!module) throw new Error('Module not found');
+
+  Object.assign(module, updateData);
+  await module.save();
+
+  return module;
 };
 
 const deleteModuleService = async (id) => {
-  return await Module.destroy({ where: { id } });
+
+  const module = await Module.findByPk(id);
+  if (!module) throw new Error('Module not found');
+
+  await module.destroy();
+  return module;
 };
 
 const reorderModulesService = async (instructorId, courseId, modules) => {
@@ -66,7 +78,11 @@ const reorderModulesService = async (instructorId, courseId, modules) => {
 };
 
 const updateModuleStatusService = async (id, status) => {
-  return await Module.update({ status }, { where: { id } });
+  const module = await Module.findByPk(id);
+  if (!module) throw new Error('Module not found');
+
+  module.status = status;
+  await module.save();
 };
 
 

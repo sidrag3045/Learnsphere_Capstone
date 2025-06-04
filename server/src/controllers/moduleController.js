@@ -36,8 +36,8 @@ const getModuleById = async (req, res) => {
 
 const updateModule = async (req, res) => {
   try {
-    await updateModuleService(req.params.id, req.body);
-    res.status(200).json({ message: 'Module updated successfully' });
+    const updatedModule = await updateModuleService(req.params.id, req.body);
+    res.status(200).json({ message: 'Module updated successfully', module: updatedModule });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
