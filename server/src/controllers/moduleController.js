@@ -45,8 +45,8 @@ const updateModule = async (req, res) => {
 
 const deleteModule = async (req, res) => {
   try {
-    await deleteModuleService(req.params.id);
-    res.status(200).json({ message: 'Module deleted successfully' });
+    const deletedModule = await deleteModuleService(req.params.id);
+    res.status(200).json({ message: 'Module deleted successfully', module: deletedModule });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
