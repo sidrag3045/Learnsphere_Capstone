@@ -1,5 +1,5 @@
 const { Module, Course } = require('../models');
-const { verifyCourseOwnership } = require('../utils/authorization');
+const { verifyCourseOwnership } = require('../utils/resourceAuthorization');
 
 // Utility functions for module validations
 const {
