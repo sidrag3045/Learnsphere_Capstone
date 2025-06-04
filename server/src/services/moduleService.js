@@ -65,6 +65,10 @@ const reorderModulesService = async (instructorId, courseId, modules) => {
   return { message: 'Modules reordered successfully' };
 };
 
+const updateModuleStatusService = async (id, status) => {
+  return await Module.update({ status }, { where: { id } });
+};
+
 
 module.exports = {
   createModuleService,
@@ -72,5 +76,6 @@ module.exports = {
   getModuleByIdService,
   updateModuleService,
   deleteModuleService,
+  updateModuleStatusService,
   reorderModulesService
 };
