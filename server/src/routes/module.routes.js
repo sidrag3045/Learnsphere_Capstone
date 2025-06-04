@@ -14,7 +14,7 @@ const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
 // POST /api/modules/:courseId - Create a new module for a course
 router.post(
-  '/:courseId',
+  '/courses/:courseId',
   verifyJWT,
   authorizeRoles('instructor'),
   createModule
