@@ -26,11 +26,23 @@ const getCourseByIdService = async (id) => {
 };
 
 const updateCourseService = async (id, updatedData) => {
-  return await Course.update(updatedData, { where: { id } });
+  
+  const course = await Course.findByPk(id);
+  if (!course) throw new Error('Course not found');
+
+  Object.assign(course, updatedData);
+  await course.save();
+
+  return course;
 };
 
 const deleteCourseService = async (id) => {
-  return await Course.destroy({ where: { id } });
+  
+  const course = await Course.findByPk(id);
+  if (!course) throw new Error('Course not found');
+
+  await course.destroy();
+  return course;
 };
 
 const getCoursesByInstructorService = async (instructorId) => {
