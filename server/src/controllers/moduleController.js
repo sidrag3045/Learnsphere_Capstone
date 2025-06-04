@@ -69,11 +69,29 @@ const reorderModules = async (req, res) => {
   }
 };
 
+const updateModuleStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['draft', 'published', 'archived'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    await updateModuleService(id, { status });
+    res.status(200).json({ message: 'Module status updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 
 module.exports = {
   createModule,
   getModulesByCourse,
   getModuleById,
   updateModule,
-  deleteModule
+  deleteModule,
+  reorderModules,
+  updateModuleStatus
 };
