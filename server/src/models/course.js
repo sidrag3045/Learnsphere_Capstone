@@ -7,8 +7,15 @@ module.exports = (sequelize, DataTypes) => {
       Course.belongsTo(models.User, {
         foreignKey: 'createdBy',
         as: 'instructor',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       });
-      // Future: Course.hasMany(models.Module, ...)
+      Course.hasMany(models.Module, {
+        foreignKey: 'courseId',
+        as: 'modules',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
   }
 
@@ -16,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+      primaryKey: true
     },
     title: {
       type: DataTypes.STRING,
@@ -25,22 +32,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     thumbnailUrl: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     createdBy: {
       type: DataTypes.UUID,
-      allowNull: false,
-     // Optional: define behavior on update
+      allowNull: false
     },
   }, {
     sequelize,
     modelName: 'Course',
     tableName: 'courses',
-    timestamps: true,
+    timestamps: true
   });
 
   return Course;
