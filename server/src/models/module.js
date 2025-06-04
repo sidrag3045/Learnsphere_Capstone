@@ -6,10 +6,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Module.belongsTo(models.Course, {
         foreignKey: 'courseId',
-        as: 'course'
+        as: 'course',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       });
 
-      // Future: Module.hasMany(models.Lesson, ...)
+      Module.hasMany(models.Lesson, {
+        foreignKey: 'moduleId',
+        as: 'lessons',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
   }
 
