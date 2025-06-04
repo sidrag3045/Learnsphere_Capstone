@@ -4,7 +4,9 @@ const { createModule,
         getModulesByCourse,
         getModuleById,
         updateModule,
-        deleteModule } = require('../controllers/moduleController');
+        deleteModule,
+        reorderModules,
+        updateModuleStatus } = require('../controllers/moduleController');
         
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
@@ -41,5 +43,19 @@ router.delete(
 );
 
 // PATCH /api/modules/courses/:courseId/reorder - Reorder modules in a course
+router.patch(
+  '/courses/:courseId/reorder',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  reorderModules
+);
+
+// PATCH /api/modules/:id/status - Update the status of a module
+router.patch(
+  '/:id/status',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  updateModuleStatus
+);
 
 module.exports = router;
