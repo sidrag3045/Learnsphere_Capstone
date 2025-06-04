@@ -23,11 +23,13 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth.routes');
 const courseRoutes = require('./routes/course.routes');
 const moduleRoutes = require('./routes/module.routes');
+const lessonRoutes = require('./routes/lesson.routes');
 
 // Using routes
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/modules', moduleRoutes);
+app.use('/api/lessons', lessonRoutes);
 
 // Export app can be used by server.js or other modules. Also for testing purposes
 module.exports = app;
