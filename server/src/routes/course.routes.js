@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { validateRequest } = require('../middlewares/validateRequest');
+const { courseSchema,  } = require('../validators/courseValidator');
 
 const { createCourse, 
         getAllCourses, 
@@ -18,6 +20,7 @@ router.post(
   '/',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(courseSchema),
   createCourse
 );
 
@@ -41,6 +44,7 @@ router.put(
   '/:id',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(courseSchema),
   updateCourse
 );
 
