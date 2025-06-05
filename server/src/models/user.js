@@ -8,9 +8,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+
+      // User to Courses (as Instructor)
       User.hasMany(models.Course, {
         foreignKey: 'createdBy',
         as: 'courses'
+      });
+
+      // User to Enrollments
+      // One to Many relationship with Enrollment
+      User.hasMany(models.Enrollment, {
+        foreignKey: 'userId',
+        as: 'enrollments',
+        onDelete: 'CASCADE'
+      });
+
+      // User to Courses (as Student)
+      // Many-to-many relationship with Course through Enrollment
+      User.belongsToMany(models.Course, {
+        through: models.Enrollment,
+        foreignKey: 'userId',
+        otherKey: 'courseId',
+        as: 'enrolledCourses'
       });
     }
   }
