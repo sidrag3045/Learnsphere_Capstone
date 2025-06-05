@@ -10,6 +10,9 @@ const { createModule,
         
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
+const { validateRequest } = require('../middlewares/validateRequest');
+const { moduleSchema, reorderModulesSchema, updateModuleStatusSchema } = require('../validators/moduleValidator');
+
 // Module Routes
 
 // POST /api/modules/:courseId - Create a new module for a course
@@ -17,6 +20,7 @@ router.post(
   '/courses/:courseId',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(moduleSchema),
   createModule
 );
 
@@ -31,6 +35,7 @@ router.put(
   '/:id',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(moduleSchema),
   updateModule
 );
 
@@ -47,6 +52,7 @@ router.patch(
   '/courses/:courseId/reorder',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(reorderModulesSchema),
   reorderModules
 );
 
@@ -55,6 +61,7 @@ router.patch(
   '/:id/status',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(updateModuleStatusSchema),
   updateModuleStatus
 );
 
