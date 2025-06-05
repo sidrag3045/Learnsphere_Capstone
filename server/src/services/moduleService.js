@@ -12,6 +12,10 @@ const createModuleService = async (data, courseId) => {
 };
 
 const getModulesByCourseService = async (courseId) => {
+
+  await Course.findByPk(courseId);
+  if (!courseId) throw new Error('Course not found');
+
   return await Module.findAll({
     where: { courseId },
     order: [['createdAt', 'ASC']]
@@ -19,6 +23,7 @@ const getModulesByCourseService = async (courseId) => {
 };
 
 const getModuleByIdService = async (id) => {
+  
   return await Module.findByPk(id, {
     include: {
       model: Course,
