@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    status: {
+      type: DataTypes.ENUM('draft', 'published', 'archived'),
+      defaultValue: 'published',
+      allowNull: false
+    },
     createdBy: {
       type: DataTypes.UUID,
       allowNull: false
