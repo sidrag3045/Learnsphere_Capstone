@@ -3,7 +3,9 @@ const { createModuleService,
         getModuleByIdService,
         updateModuleService,
         deleteModuleService,
-        reorderModulesService } = require('../services/moduleService');
+        reorderModulesService,
+        updateModuleStatusService
+      } = require('../services/moduleService');
 
 const createModule = async (req, res) => {
   try {
@@ -78,8 +80,8 @@ const updateModuleStatus = async (req, res) => {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
-    await updateModuleService(id, { status });
-    res.status(200).json({ message: 'Module status updated successfully' });
+    await updateModuleStatusService(id, { status });
+    res.status(200).json({ message: 'Module status updated successfully', module: { id, status } });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

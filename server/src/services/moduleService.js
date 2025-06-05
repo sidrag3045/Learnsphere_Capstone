@@ -5,7 +5,7 @@ const { verifyCourseOwnership } = require('../utils/resourceAuthorisation');
 const {
   hasDuplicates,
   validateModuleIdsBelongToCourse
-} = require('../utils/moduleValidations');
+} = require('../utils/moduleServiceValidations');
 
 const createModuleService = async (data, courseId) => {
   return await Module.create({ ...data, courseId });
