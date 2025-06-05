@@ -7,10 +7,12 @@ const { createLesson,
         getLessonById, 
         getLessonsByModuleId,
         updateLesson, 
-        deleteLesson } = require('../controllers/lessonController');
+        deleteLesson,
+        reorderLessons,
+        updateLessonStatus } = require('../controllers/lessonController');
 
 const { validateRequest } = require('../middlewares/validateRequest');
-const { lessonSchema, reorderLessonsSchema } = require('../validators/lessonValidator');        
+const { lessonSchema, reorderLessonsSchema, updateLessonStatusSchema } = require('../validators/lessonValidator');        
 
 // Lesson routes
 
@@ -52,6 +54,24 @@ router.delete(
   verifyJWT,
   authorizeRoles('instructor'),
   deleteLesson
+);
+
+// PATCH /api/lessons/modules/:moduleId/reorder - Reorder lessons in a module
+router.patch(
+  '/modules/:moduleId/reorder',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  validateRequest(reorderLessonsSchema),
+  reorderLessons
+);
+
+// PATCH /api/lessons/:id/status - Update lesson status
+router.patch(
+  '/:id/status',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  validateRequest(updateLessonStatusSchema),
+  updateLessonStatus
 );
 
 module.exports = router;

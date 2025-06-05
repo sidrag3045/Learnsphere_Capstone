@@ -2,7 +2,9 @@ const { createLessonService,
         getLessonByIdService,
         getLessonsByModuleIdService,
         updateLessonService,
-        deleteLessonService } = require('../services/lessonService');
+        deleteLessonService,
+        reorderLessonsService,
+        updateLessonStatusService } = require('../services/lessonService');
 
 const createLesson = async (req, res) => {
   try {
@@ -49,10 +51,45 @@ const deleteLesson = async (req, res) => {
   }
 };
 
+const reorderLessons = async (req, res) => {
+  try {
+    const instructorId = req.user.id;
+    const { moduleId } = req.params;
+    const { lessons } = req.body;
+
+    if (!Array.isArray(lessons)) {
+      return res.status(400).json({ message: 'Lessons array is required' });
+    }
+
+    const result = await reorderLessonsService(instructorId, moduleId, lessons);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const updateLessonStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['draft', 'published', 'archived'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    await updateLessonStatusService(id, { status });
+    res.status(200).json({ message: 'Lesson updated successfully', lesson: { id, status } });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   createLesson,
   getLessonsByModuleId,
   getLessonById,
   updateLesson,
-  deleteLesson
+  deleteLesson,
+  reorderLessons,
+  updateLessonStatus
 };
