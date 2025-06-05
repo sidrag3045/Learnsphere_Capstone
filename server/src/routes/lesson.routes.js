@@ -9,6 +9,8 @@ const { createLesson,
         updateLesson, 
         deleteLesson } = require('../controllers/lessonController');
 
+const { validateRequest } = require('../middlewares/validateRequest');
+const { lessonSchema, reorderLessonsSchema } = require('../validators/lessonValidator');        
 
 // Lesson routes
 
@@ -17,6 +19,7 @@ router.post(
   '/modules/:moduleId',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(lessonSchema),
   createLesson
 );
 
@@ -39,6 +42,7 @@ router.put(
   '/:id',
   verifyJWT,
   authorizeRoles('instructor'),
+  validateRequest(lessonSchema),
   updateLesson
 );
 
