@@ -8,6 +8,11 @@ const courseSchema = Joi.object({
   createdBy: Joi.string().guid({ version: ['uuidv4'] }).required()
 });
 
+const updateCourseStatusSchema = Joi.object({
+  status: Joi.string().valid('draft', 'published', 'archived').required()
+});
+
 module.exports = {
-  courseSchema
+  courseSchema,
+  updateCourseStatusSchema
 };

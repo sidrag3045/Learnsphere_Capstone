@@ -19,7 +19,12 @@ const reorderLessonsSchema = Joi.object({
   ).min(1).required()
 });
 
+const updateLessonStatusSchema = Joi.object({
+  status: Joi.string().valid('draft', 'published', 'archived').required()
+});
+
 module.exports = {
   lessonSchema,
-  reorderLessonsSchema
+  reorderLessonsSchema,
+  updateLessonStatusSchema
 };
