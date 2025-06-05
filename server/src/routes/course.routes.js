@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { validateRequest } = require('../middlewares/validateRequest');
-const { courseSchema,  } = require('../validators/courseValidator');
+const { courseSchema, updateCourseStatusSchema } = require('../validators/courseValidator');
 
 const { createCourse, 
         getAllCourses, 
@@ -9,7 +9,8 @@ const { createCourse,
         updateCourse, 
         deleteCourse,
         getCoursesByInstructor,
-        getCoursesByInstructorSelf } = require('../controllers/courseController');
+        getCoursesByInstructorSelf,
+        updateCourseStatus } = require('../controllers/courseController');
 
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
@@ -63,7 +64,14 @@ router.get(
   getCoursesByInstructor
 );
 
-// Implement routes for updating status
+// PATCH /api/courses/:id/status - Update the status of a course
+router.patch(
+  '/:id/status',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  validateRequest(updateCourseStatusSchema),
+  updateCourseStatus
+);
 
 // Additional routes can be added here as needed
 // (e.g., search, sort, filter, etc.)

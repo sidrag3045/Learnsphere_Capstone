@@ -3,8 +3,8 @@ const { createCourseService,
   getCourseByIdService,
   updateCourseService,
   deleteCourseService,
-  getCoursesByInstructorService
- } = require('../services/courseService');
+  getCoursesByInstructorService,
+  updateCourseStatusService } = require('../services/courseService');
 
 const createCourse = async (req, res) => {
   try {
@@ -76,6 +76,22 @@ const getCoursesByInstructorSelf = async (req, res) => {
     }
 }
 
+const updateCourseStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['draft', 'published', 'archived'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    await updateCourseStatusService(id, { status });
+    res.status(200).json({ message: 'Course status updated successfully', course: { id, status } });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   createCourse,
   getAllCourses,
@@ -83,5 +99,6 @@ module.exports = {
   updateCourse,
   deleteCourse,
   getCoursesByInstructor,
-  getCoursesByInstructorSelf
+  getCoursesByInstructorSelf,
+  updateCourseStatus
 };

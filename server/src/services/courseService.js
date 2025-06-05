@@ -65,6 +65,16 @@ const deleteCourseService = async (id) => {
   return course;
 };
 
+const updateCourseStatusService = async (id, status) => {
+  const course = await Course.findByPk(id);
+  if (!course) throw new Error('Course not found');
+
+  course.status = status;
+  await course.save();
+
+  return course;
+};
+
 
 module.exports = {
   createCourseService,
@@ -72,5 +82,6 @@ module.exports = {
   getCourseByIdService,
   updateCourseService,
   deleteCourseService,
-  getCoursesByInstructorService
+  getCoursesByInstructorService,
+  updateCourseStatusService
 };
