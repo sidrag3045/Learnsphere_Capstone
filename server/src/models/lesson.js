@@ -6,9 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Lesson.belongsTo(models.Module, {
         foreignKey: 'moduleId',
-        as: 'module',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'module'
       });
     }
   }

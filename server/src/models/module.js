@@ -6,16 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Module.belongsTo(models.Course, {
         foreignKey: 'courseId',
-        as: 'course',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'course'
       });
 
       Module.hasMany(models.Lesson, {
         foreignKey: 'moduleId',
-        as: 'lessons',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'lessons'
       });
     }
   }
