@@ -63,6 +63,7 @@ router.get(
   getCoursesByInstructor
 );
 
+// Implement routes for updating status
 
 // Additional routes can be added here as needed
 // (e.g., search, sort, filter, etc.)
