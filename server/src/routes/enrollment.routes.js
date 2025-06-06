@@ -13,11 +13,11 @@ const { enrollInCourse,
 
 // Student enrolls in a course
 // POST api/enrollments/:courseId/enroll
-router.post('/:courseId/enroll', verifyJWT, authorizeRole(['student']),enrollInCourse);
+router.post('/:courseId/enroll', verifyJWT,enrollInCourse);
 
 // Student fetches all enrolled courses
 // GET api/enrollments
-router.get('/', verifyJWT, authorizeRole(['student']), getUserEnrollments);
+router.get('/', verifyJWT, getUserEnrollments);
 
 // Instructor views all enrolled students in their own course
 // GET api/enrollments/course/:courseId/students
@@ -25,6 +25,6 @@ router.get('/course/:courseId/students', verifyJWT, authorizeRole(['instructor']
 
 // Student checks if they are enrolled in a specific course
 // GET api/enrollments/:courseId/status
-router.get('/:courseId/status', verifyJWT, authorizeRole(['student']), checkEnrollmentStatus);
+router.get('/:courseId/status', verifyJWT, checkEnrollmentStatus);
 
 module.exports = router;
