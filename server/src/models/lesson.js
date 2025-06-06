@@ -25,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT
       },
-      videoUrl: {
+      s3Key: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       duration: {
         type: DataTypes.INTEGER, // in minutes
