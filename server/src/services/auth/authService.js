@@ -1,6 +1,6 @@
-const { generateToken } = require('../utils/jwt');
-const { hashPassword, comparePasswords } = require('../utils/hashUtils');
-const { User } = require('../models');
+const { generateToken } = require('../../utils/jwt');
+const { hashPassword, comparePasswords } = require('../../utils/hashUtils');
+const { User } = require('../../models');
 
 const registerUser = async (data) => {
   const { fullName, username, email, password, role } = data;

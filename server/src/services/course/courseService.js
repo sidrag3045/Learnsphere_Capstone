@@ -1,4 +1,4 @@
-const { Course, User } = require('../models');
+const { Course, User } = require('../../models');
 
 const createCourseService = async (data, instructorId) => {
   await User.findByPk(instructorId);

@@ -1,4 +1,4 @@
-const { Enrollment, Course, User } = require('../models');
+const { Enrollment, Course, User } = require('../../models');
 
 const enrollInCourseService = async (userId, courseId) => {
   const course = await Course.findByPk(courseId);

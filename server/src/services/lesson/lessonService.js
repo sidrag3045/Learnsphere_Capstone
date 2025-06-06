@@ -1,10 +1,10 @@
-const { Lesson, Module } = require('../models');
-const { verifyModuleOwnership } = require('../utils/resourceAuthorisation');
+const { Lesson, Module } = require('../../models');
+const { verifyModuleOwnership } = require('../../utils/resourceAuthorisation');
 
 const {
   hasDuplicates,
   validateLessonIdsBelongToModule
-} = require('../utils/lessonServiceValidations');
+} = require('../../utils/lessonServiceValidations');
 
 const createLessonService = async (moduleId, data, userId) => {
 

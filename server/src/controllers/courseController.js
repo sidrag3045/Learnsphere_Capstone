@@ -4,7 +4,7 @@ const { createCourseService,
   updateCourseService,
   deleteCourseService,
   getCoursesByInstructorService,
-  updateCourseStatusService } = require('../services/courseService');
+  updateCourseStatusService } = require('../services/course/courseService');
 
 const createCourse = async (req, res) => {
   try {

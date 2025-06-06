@@ -1,7 +1,7 @@
 const { enrollInCourseService,
     getUserEnrollmentsService,
     getEnrolledStudentsForCourseService,
-    checkEnrollmentStatusService } = require('../services/enrollmentService');
+    checkEnrollmentStatusService } = require('../services/enrollment/enrollmentService');
 
 const enrollInCourse = async (req, res, next) => {
   try {

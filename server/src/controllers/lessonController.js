@@ -4,7 +4,7 @@ const { createLessonService,
         updateLessonService,
         deleteLessonService,
         reorderLessonsService,
-        updateLessonStatusService } = require('../services/lessonService');
+        updateLessonStatusService } = require('../services/lesson/lessonService');
 
 const createLesson = async (req, res) => {
   try {

@@ -5,7 +5,7 @@ const { createModuleService,
         deleteModuleService,
         reorderModulesService,
         updateModuleStatusService
-      } = require('../services/moduleService');
+      } = require('../services/module/moduleService');
 
 const createModule = async (req, res) => {
   try {
