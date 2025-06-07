@@ -4,14 +4,14 @@ const s3 = require('./s3Client');
 const AWS_CONFIG = require('../../config/aws');
 
 // Generate a signed URL for downloading (video/PDF)
-const generateSignedUrl = async (s3Key, expiresIn = 900) => {
+const generateDownloadSignedUrl = async (s3Key) => {
   try {
     const command = new GetObjectCommand({
       Bucket: AWS_CONFIG.bucketName,
       Key: s3Key
     });
 
-    return await getSignedUrl(s3, command, { expiresIn });
+    return await getSignedUrl(s3, command, { expiresIn: AWS_CONFIG.linkExpiry });
   } catch (error) {
     console.error('Error generating signed URL:', error);
     throw new Error('Could not generate video access URL');
@@ -27,7 +27,7 @@ const generateUploadSignedUrl = async (s3Key, contentType) => {
       ContentType: contentType
     });
 
-    return await getSignedUrl(s3, command, { expiresIn: 900 });
+    return await getSignedUrl(s3, command, { expiresIn: AWS_CONFIG.linkExpiry });
   } catch (error) {
     console.error('Error generating upload URL:', error);
     throw new Error('Could not generate upload URL');
@@ -36,6 +36,6 @@ const generateUploadSignedUrl = async (s3Key, contentType) => {
 
 
 module.exports = {
-  generateSignedUrl,
+  generateDownloadSignedUrl,
   generateUploadSignedUrl
 };
