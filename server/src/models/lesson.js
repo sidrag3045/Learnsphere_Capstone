@@ -23,18 +23,19 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       description: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: "No description provided"
       },
       s3Key: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         comment: 'S3 object key for lesson content (video/pdf/article)'
       },
       contentType: {
         type: DataTypes.ENUM('video', 'pdf', 'article'),
         allowNull: false,
         comment: 'Type of content stored in S3',
-        defaultValue: 'video'
+        defaultValue: 'article'
       },
       duration: {
         type: DataTypes.INTEGER, // in minutes
@@ -43,6 +44,8 @@ module.exports = (sequelize, DataTypes) => {
       order: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
+        comment: 'Order of the lesson within the module'
       },
       status: {
         type: DataTypes.ENUM('draft', 'published', 'archived'),
