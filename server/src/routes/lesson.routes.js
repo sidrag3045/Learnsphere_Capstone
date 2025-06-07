@@ -9,10 +9,13 @@ const { createLesson,
         updateLesson, 
         deleteLesson,
         reorderLessons,
-        updateLessonStatus } = require('../controllers/lessonController');
+        updateLessonStatus,
+        getLessonContent,
+        uploadLessonContent } = require('../controllers/lessonController');
 
 const { validateRequest } = require('../middlewares/validateRequest');
-const { lessonSchema, reorderLessonsSchema, updateLessonStatusSchema } = require('../validators/lessonValidator');        
+const { lessonSchema, reorderLessonsSchema, updateLessonStatusSchema, generateUploadUrlSchema } = require('../validators/lessonValidator');        
+
 
 // Lesson routes
 
@@ -72,6 +75,22 @@ router.patch(
   authorizeRoles('instructor'),
   validateRequest(updateLessonStatusSchema),
   updateLessonStatus
+);
+
+// GET /api/lessons/:id/content - Get secure lesson content
+router.get(
+  '/:id/content',
+  verifyJWT,
+  getLessonContent
+);
+
+// POST /api/lessons/:id/upload-url - Generate signed URL for upload (instructor)
+router.post(
+  '/:id/upload-url',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  validateRequest(generateUploadUrlSchema),
+  uploadLessonContent
 );
 
 module.exports = router;
