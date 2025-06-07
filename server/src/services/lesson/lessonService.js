@@ -1,5 +1,7 @@
-const { Lesson, Module } = require('../../models');
+const { Lesson, Module, Enrollment, Course } = require('../../models');
 const { verifyModuleOwnership } = require('../../utils/resourceAuthorisation');
+
+const { generateDownloadSignedUrl, generateUploadSignedUrl } = require('../aws/s3Service');
 
 const {
   hasDuplicates,
@@ -87,6 +89,62 @@ const updateLessonStatusService = async (id, status) => {
   return lesson;
 };
 
+const getLessonWithSignedUrlService = async (lessonId, userId) => {
+  const lesson = await Lesson.findByPk(lessonId, {
+    include: {
+      model: Module,
+      include: { model: Course }
+    }
+  });
+  if (!lesson) throw new Error('Lesson not found');
+
+  const courseId = lesson.Module?.Course?.id;
+  const enrolled = await Enrollment.findOne({ where: { userId, courseId } });
+  if (!enrolled) throw new Error('You are not enrolled in this course');
+
+  const signedUrl = lesson.s3Key ? await generateDownloadSignedUrl(lesson.s3Key) : null;
+
+  return {
+    id: lesson.id,
+    title: lesson.title,
+    description: lesson.description,
+    contentType: lesson.contentType,
+    signedUrl
+  };
+};
+
+// maps 'video/mp4' to 'video', etc.
+function mapMimeTypeToEnum(mime) {
+  if (mime.startsWith('video/')) return 'video';
+  if (mime === 'application/pdf') return 'pdf';
+  if (mime === 'text/html') return 'article';
+  return 'video'; // default fallback
+}
+
+const uploadSignedUrlService = async (lessonId, instructorId, contentType, extension) => {
+  const lesson = await Lesson.findByPk(lessonId, {
+    include: {
+      model: Module,
+      include: {
+        model: Course,
+        where: { createdBy: instructorId }
+      }
+    }
+  });
+
+  if (!lesson) throw new Error('Unauthorized or lesson not found');
+
+  const s3Key = `uploads/course_${lesson.Module.Course.id}/module_${lesson.Module.id}/lesson_${lesson.id}.${extension}`;
+
+  const uploadUrl = await generateUploadSignedUrl(s3Key, contentType);
+
+  lesson.s3Key = s3Key;
+  lesson.contentType = mapMimeTypeToEnum(contentType);
+  await lesson.save();
+
+  return uploadUrl;
+};
+
 module.exports = {
   createLessonService,
   getLessonByIdService,
@@ -94,5 +152,7 @@ module.exports = {
   updateLessonService,
   deleteLessonService,
   reorderLessonsService,
-  updateLessonStatusService
+  updateLessonStatusService,
+  getLessonWithSignedUrlService,
+  uploadSignedUrlService
 };
