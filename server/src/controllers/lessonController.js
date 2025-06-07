@@ -4,7 +4,9 @@ const { createLessonService,
         updateLessonService,
         deleteLessonService,
         reorderLessonsService,
-        updateLessonStatusService } = require('../services/lesson/lessonService');
+        updateLessonStatusService,
+        getLessonWithSignedUrlService,
+        uploadSignedUrlService } = require('../services/lesson/lessonService');
 
 const createLesson = async (req, res) => {
   try {
@@ -84,6 +86,33 @@ const updateLessonStatus = async (req, res) => {
   }
 };
 
+// For enrolled student to view lesson content
+const getLessonContent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const studentId = req.user.id;
+
+    const lesson = await getLessonWithSignedUrlService(id, studentId);
+    return res.status(200).json({ lesson });
+  } catch (err) {
+    return res.status(403).json({ message: err.message });
+  }
+};
+
+// For instructor to upload content (signed URL generation)
+const uploadLessonContent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const instructorId = req.user.id;
+    const { contentType, extension } = req.body;
+
+    const uploadUrl = await uploadSignedUrlService(id, instructorId, contentType, extension);
+    return res.status(200).json({ uploadUrl });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createLesson,
   getLessonsByModuleId,
@@ -91,5 +120,7 @@ module.exports = {
   updateLesson,
   deleteLesson,
   reorderLessons,
-  updateLessonStatus
+  updateLessonStatus,
+  getLessonContent,
+  uploadLessonContent
 };
