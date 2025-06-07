@@ -27,7 +27,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       s3Key: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        comment: 'S3 object key for lesson content (video/pdf/article)'
+      },
+      contentType: {
+        type: DataTypes.ENUM('video', 'pdf', 'article'),
+        allowNull: false,
+        comment: 'Type of content stored in S3',
+        defaultValue: 'video'
       },
       duration: {
         type: DataTypes.INTEGER, // in minutes
