@@ -32,7 +32,7 @@ const getEnrolledStudentsForCourseService = async (instructorId, courseId) => {
     include: {
       model: User,
       as: 'student',
-      attributes: ['id', 'name', 'email']
+      attributes: ['id', 'fullName', 'email']
     }
   });
 };
