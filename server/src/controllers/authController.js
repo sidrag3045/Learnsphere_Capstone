@@ -1,7 +1,7 @@
-const authService = require('../services/auth/authService');
+const { registerUserService, loginUserService } = require('../services/auth/authService');
 
 const register = async (req, res) => {
-  const result = await authService.registerUser(req.body);
+  const result = await registerUserService(req.body);
 
   res.cookie('token', result.token, 
     {
@@ -15,7 +15,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const result = await authService.loginUser(req.body);
+  const result = await loginUserService(req.body);
   res.cookie('token', result.token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'development' ? false : true,

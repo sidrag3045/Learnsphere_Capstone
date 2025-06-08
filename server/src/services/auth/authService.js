@@ -2,7 +2,7 @@ const { generateToken } = require('../../utils/jwt');
 const { hashPassword, comparePasswords } = require('../../utils/hashUtils');
 const { User } = require('../../models');
 
-const registerUser = async (data) => {
+const registerUserService = async (data) => {
   const { fullName, username, email, password, role } = data;
   const hashedPassword = await hashPassword(password);
 
@@ -30,7 +30,7 @@ const registerUser = async (data) => {
   };
 };
 
-const loginUser = async ({ email, password }) => {
+const loginUserService = async ({ email, password }) => {
   const user = await User.findOne({ where: { email } });
   if (!user || !(await comparePasswords(password, user.password))) {
     return { status: 401, body: { message: 'Invalid credentials' } };
@@ -52,4 +52,4 @@ const loginUser = async ({ email, password }) => {
   };
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUserService, loginUserService };
