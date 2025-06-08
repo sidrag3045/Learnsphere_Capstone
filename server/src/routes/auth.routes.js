@@ -13,10 +13,10 @@ router.get('/', (req, res) => {
 });
 
 // Register Endpoint
-router.post('/register', validateRequest(registerSchema), register);
+router.post('/register', validateRequest(registerUserSchema), register);
 
 // Login Endpoint
-router.post('/login', validateRequest(loginSchema), login);
+router.post('/login', validateRequest(loginUserSchema), login);
 
 // Logout Endpoint
 router.post('/logout', logout);
