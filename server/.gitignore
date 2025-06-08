@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore node_modules directory
 /node_modules
 
@@ -10,3 +11,17 @@
 
 # Ignore build directories
 .DS_Store
+=======
+# Node modules
+/node_modules
+
+# Environment variables
+/.env
+
+# Sequelize metadata
+src/seeders/*.js
+src/migrations/*.js
+
+# Logs
+.DS_Store
+>>>>>>> main
