@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const verifyJWT = require('../middlewares/verifyJWT');
-const authorizeRole = require('../middlewares/authorizeRole');
+const {verifyJWT, authorizeRoles} = require('../middlewares/authMiddleware');
 
 const { enrollInCourse,
         getUserEnrollments,
@@ -21,7 +20,7 @@ router.get('/', verifyJWT, getUserEnrollments);
 
 // Instructor views all enrolled students in their own course
 // GET api/enrollments/course/:courseId/students
-router.get('/course/:courseId/students', verifyJWT, authorizeRole(['instructor']), getEnrolledStudentsForCourse);
+router.get('/course/:courseId/students', verifyJWT, authorizeRoles(['instructor']), getEnrolledStudentsForCourse);
 
 // Student checks if they are enrolled in a specific course
 // GET api/enrollments/:courseId/status
