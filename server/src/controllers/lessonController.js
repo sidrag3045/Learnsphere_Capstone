@@ -9,8 +9,11 @@ const { createLessonService,
         uploadSignedUrlService } = require('../services/lesson/lessonService');
 
 const createLesson = async (req, res) => {
+  const { moduleId } = req.params;
+  const body = req.body;
+  const userId = req.user.id;
   try {
-    const lesson = await createLessonService(req.params.moduleId, req.body, req.user.id);
+    const lesson = await createLessonService(moduleId, body, userId);
     res.status(201).json({ message: 'Lesson created successfully', lesson });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -18,8 +21,9 @@ const createLesson = async (req, res) => {
 };
 
 const getLessonsByModuleId = async (req, res) => {
+  const { moduleId } = req.params;
   try {
-    const lessons = await getLessonsByModuleIdService(req.params.moduleId);
+    const lessons = await getLessonsByModuleIdService(moduleId);
     res.status(200).json({ lessons });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -27,8 +31,9 @@ const getLessonsByModuleId = async (req, res) => {
 }
 
 const getLessonById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const lesson = await getLessonByIdService(req.params.id);
+    const lesson = await getLessonByIdService(id);
     res.status(200).json({ lesson });
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -36,8 +41,11 @@ const getLessonById = async (req, res) => {
 };
 
 const updateLesson = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  const userId = req.user.id;
   try {
-    const lesson = await updateLessonService(req.params.id, req.body, req.user.id);
+    const lesson = await updateLessonService(id, body, userId);
     res.status(200).json({ message: 'Lesson updated successfully', lesson });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -45,8 +53,10 @@ const updateLesson = async (req, res) => {
 };
 
 const deleteLesson = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
   try {
-    await deleteLessonService(req.params.id, req.user.id);
+    const lesson = await deleteLessonService(id, userId);
     res.status(200).json({ message: 'Lesson deleted successfully', lesson });
   } catch (err) {
     res.status(400).json({ message: err.message });
