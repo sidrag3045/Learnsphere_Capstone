@@ -49,9 +49,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    thumbnailUrl: {
+    thumbnailKey: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+      comment: 'S3 key for course thumbnail image'
     },
     status: {
       type: DataTypes.ENUM('draft', 'published', 'archived'),
