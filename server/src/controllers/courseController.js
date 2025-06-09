@@ -4,7 +4,8 @@ const { createCourseService,
   updateCourseService,
   deleteCourseService,
   getCoursesByInstructorService,
-  updateCourseStatusService } = require('../services/course/courseService');
+  updateCourseStatusService,
+  generateThumbnailUploadService } = require('../services/course/courseService');
 
 const createCourse = async (req, res) => {
   try {
@@ -92,6 +93,19 @@ const updateCourseStatus = async (req, res) => {
   }
 };
 
+const generateThumbnailUploadUrl = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const instructorId = req.user.id;
+    const { extension } = req.body;
+
+    const uploadUrl = await generateThumbnailUploadService(id, extension, instructorId);
+    return res.status(200).json({ uploadUrl, message: 'Thumbnail URL generated successfully' });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createCourse,
   getAllCourses,
@@ -100,5 +114,6 @@ module.exports = {
   deleteCourse,
   getCoursesByInstructor,
   getCoursesByInstructorSelf,
-  updateCourseStatus
+  updateCourseStatus,
+  generateThumbnailUploadUrl
 };
