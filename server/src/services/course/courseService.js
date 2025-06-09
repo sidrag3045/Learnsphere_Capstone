@@ -1,21 +1,30 @@
 const { Course, User } = require('../../models');
+const { generateUploadSignedUrl, generatePublicUrl } = require('../../services/aws/s3Service');
+
 
 const createCourseService = async (data, instructorId) => {
-  await User.findByPk(instructorId);
-  if (!instructorId) throw new Error('Instructor not found');
-  
+
+  const instructor = await User.findByPk(instructorId);
+  if (!instructor) throw new Error('Instructor not found');
+
   return await Course.create({ ...data, createdBy: instructorId });
 };
 
 const getAllCoursesService = async () => {
 
-  return await Course.findAll({
+  const courses = await Course.findAll({
     include: {
       model: User,
       as: 'instructor',
       attributes: ['id', 'fullName', 'email']
     },
     order: [['createdAt', 'DESC']]
+  });
+
+  return courses.map(course => {
+    const plain = course.toJSON();
+    plain.thumbnailUrl = generatePublicUrl(course.thumbnailKey);
+    return plain;
   });
 };
 
@@ -30,11 +39,14 @@ const getCourseByIdService = async (id) => {
   });
 
   if (!course) throw new Error('Course not found');
-  return course;
+  const plain = course.toJSON();
+  plain.thumbnailUrl = generatePublicUrl(course.thumbnailKey);
+  return plain;
 };
 
 const getCoursesByInstructorService = async (instructorId) => {
-  return await Course.findAll({
+
+  const courses = await Course.findAll({
     where: { createdBy: instructorId },
     include: {
       model: User,
@@ -42,6 +54,12 @@ const getCoursesByInstructorService = async (instructorId) => {
       attributes: ['id', 'fullName', 'email']
     },
     order: [['createdAt', 'DESC']]
+  });
+
+  return courses.map(course => {
+    const plain = course.toJSON();
+    plain.thumbnailUrl = generatePublicUrl(course.thumbnailKey);
+    return plain;
   });
 };
 
@@ -66,6 +84,7 @@ const deleteCourseService = async (id) => {
 };
 
 const updateCourseStatusService = async (id, status) => {
+
   const course = await Course.findByPk(id);
   if (!course) throw new Error('Course not found');
 
@@ -75,6 +94,20 @@ const updateCourseStatusService = async (id, status) => {
   return course;
 };
 
+const generateThumbnailUploadService = async (courseId, extension, instructorId) => {
+
+  const course = await Course.findByPk(courseId);
+  if (!course) throw new Error('Course not found');
+  if (course.createdBy !== instructorId) throw new Error('Unauthorized');
+
+  const thumbnailKey = `uploads/thumbnails/course_${courseId}.${extension}`;
+  const uploadUrl = await generateUploadSignedUrl(thumbnailKey, `image/${extension}`);
+
+  course.thumbnailKey = thumbnailKey;
+  await course.save();
+
+  return uploadUrl;
+};
 
 module.exports = {
   createCourseService,
@@ -83,5 +116,6 @@ module.exports = {
   updateCourseService,
   deleteCourseService,
   getCoursesByInstructorService,
-  updateCourseStatusService
+  updateCourseStatusService,
+  generateThumbnailUploadService
 };
