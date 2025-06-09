@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { validateRequest } = require('../middlewares/validateRequest');
-const { courseSchema, updateCourseStatusSchema } = require('../validators/courseValidator');
+const { courseSchema, updateCourseStatusSchema, generateThumbnailUploadSchema } = require('../validators/courseValidator');
 
 const { createCourse, 
         getAllCourses, 
@@ -10,7 +10,8 @@ const { createCourse,
         deleteCourse,
         getCoursesByInstructor,
         getCoursesByInstructorSelf,
-        updateCourseStatus } = require('../controllers/courseController');
+        updateCourseStatus,
+        generateThumbnailUploadUrl } = require('../controllers/courseController');
 
 const { verifyJWT, authorizeRoles } = require('../middlewares/authMiddleware');
 
@@ -73,6 +74,14 @@ router.patch(
   updateCourseStatus
 );
 
+// PUT /api/courses/:id/thumbnail - Generate S3 upload URL for course thumbnail
+router.put(
+  '/:id/thumbnail',
+  verifyJWT,
+  authorizeRoles('instructor'),
+  validateRequest(generateThumbnailUploadSchema),
+  generateThumbnailUploadUrl
+);
 // Additional routes can be added here as needed
 // (e.g., search, sort, filter, etc.)
 
