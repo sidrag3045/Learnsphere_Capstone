@@ -3,7 +3,7 @@ const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const s3 = require('./s3Client');
 const AWS_CONFIG = require('../../config/aws');
 
-// Generate a signed URL for downloading (video/PDF)
+// Generate a signed URL for downloading (video/PDF or thumbnails)
 const generateDownloadSignedUrl = async (s3Key) => {
   try {
     const command = new GetObjectCommand({
@@ -18,7 +18,7 @@ const generateDownloadSignedUrl = async (s3Key) => {
   }
 };
 
-// Generate a signed URL for uploading (video/PDF)
+// Generate a signed URL for uploading (video/PDF or thumbnails)
 const generateUploadSignedUrl = async (s3Key, contentType) => {
   try {
     const command = new PutObjectCommand({
@@ -34,8 +34,15 @@ const generateUploadSignedUrl = async (s3Key, contentType) => {
   }
 };
 
+// Generate a public URL for accessing files via CloudFront (thumbnails, static assets)
+const generatePublicUrl = (s3Key) => {
+  if (!s3Key) return null;
+  return `${AWS_CONFIG.cloudFrontDomain}/${s3Key}`;
+};
+
 
 module.exports = {
   generateDownloadSignedUrl,
-  generateUploadSignedUrl
+  generateUploadSignedUrl,
+  generatePublicUrl
 };
