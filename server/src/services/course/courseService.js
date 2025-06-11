@@ -1,5 +1,6 @@
 const { Course, User } = require('../../models');
-const { generateUploadSignedUrl, generatePublicUrl } = require('../../services/aws/s3Service');
+const { generateUploadSignedUrl } = require('../../services/aws/s3Service');
+const { generatePublicUrl } = require('../../services/aws/cloudfrontService');
 
 
 const createCourseService = async (data, instructorId) => {
