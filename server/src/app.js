@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const errorHandler = require('./middlewares/errorHandler');
 
 // Initializing Express app
 const app = express();
@@ -37,6 +38,9 @@ app.use('/api/enrollments', enrollmentRoutes);
 app.use((req, res) => {
   res.status(404).send('404 Not Found');
 });
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Export app can be used by server.js or other modules. Also for testing purposes
 module.exports = app;
