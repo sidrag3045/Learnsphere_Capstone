@@ -1,7 +1,11 @@
 const { Lesson, Module, Enrollment, Course } = require('../../models');
 const { verifyModuleOwnership } = require('../../utils/resourceAuthorisation');
 
-const { generateDownloadSignedUrl, generateUploadSignedUrl } = require('../aws/s3Service');
+// CloudFront for signed content delivery
+const { generateCloudFrontSignedUrl } = require('../aws/cloudfrontService');
+
+// S3 for upload operations
+const { generateUploadSignedUrl } = require('../aws/s3Service');
 
 const {
   hasDuplicates,
@@ -9,20 +13,17 @@ const {
 } = require('../../utils/lessonServiceValidations');
 
 const createLessonService = async (moduleId, data, userId) => {
-
   await verifyModuleOwnership(moduleId, userId);
   return await Lesson.create({ ...data, moduleId });
 };
 
 const getLessonByIdService = async (id) => {
-
   const lesson = await Lesson.findByPk(id);
   if (!lesson) throw new Error('Lesson not found');
   return lesson;
 };
 
 const getLessonsByModuleIdService = async (moduleId) => {
-
   const module = await Module.findByPk(moduleId);
   if (!module) throw new Error('Module not found');
   
@@ -30,7 +31,6 @@ const getLessonsByModuleIdService = async (moduleId) => {
 };
 
 const updateLessonService = async (id, data, userId) => {
-
   const lesson = await Lesson.findByPk(id);
   if (!lesson) throw new Error('Lesson not found');
 
@@ -43,7 +43,6 @@ const updateLessonService = async (id, data, userId) => {
 };
 
 const deleteLessonService = async (id, userId) => {
-
   const lesson = await Lesson.findByPk(id);
   if (!lesson) throw new Error('Lesson not found');
 
@@ -55,7 +54,6 @@ const deleteLessonService = async (id, userId) => {
 };
 
 const reorderLessonsService = async (instructorId, moduleId, lessons) => {
-
   await verifyModuleOwnership(moduleId, instructorId);
 
   const lessonIds = lessons.map(l => l.id);
@@ -102,7 +100,7 @@ const getLessonWithSignedUrlService = async (lessonId, userId) => {
   const enrolled = await Enrollment.findOne({ where: { userId, courseId } });
   if (!enrolled) throw new Error('You are not enrolled in this course');
 
-  const signedUrl = lesson.s3Key ? await generateDownloadSignedUrl(lesson.s3Key) : null;
+  const signedUrl = lesson.s3Key ? generateCloudFrontSignedUrl(lesson.s3Key) : null;
 
   return {
     id: lesson.id,
