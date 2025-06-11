@@ -9,4 +9,7 @@
 /src/migrations/*.js
 
 # Ignore build directories
-.DS_Store
+/.DS_Store
+
+# Ignore cloudfront Key
+/src/config/cloudfront-private-key.pem
