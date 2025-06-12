@@ -7,6 +7,7 @@ const AWS_CONFIG = require('../../config/aws');
 const privateKeyPath = path.resolve(AWS_CONFIG.cloudFrontPrivateKeyPath || '');
 
 if (!fs.existsSync(privateKeyPath)) {
+  console.error('Looking for key at:', privateKeyPath);
   throw new Error('CloudFront private key not found or not configured.');
 }
 
