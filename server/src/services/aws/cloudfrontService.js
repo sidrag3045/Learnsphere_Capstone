@@ -4,12 +4,13 @@ const path = require('path');
 const AWS_CONFIG = require('../../config/aws');
 
 // Ensure CloudFront private key is configured and exists
-if (!AWS_CONFIG.cloudFrontPrivateKeyPath || !fs.existsSync(AWS_CONFIG.cloudFrontPrivateKeyPath)) {
+const privateKeyPath = path.resolve(AWS_CONFIG.cloudFrontPrivateKeyPath || '');
+
+if (!fs.existsSync(privateKeyPath)) {
   throw new Error('CloudFront private key not found or not configured.');
 }
 
-// Read the CloudFront private key from the configured path
-const privateKey = fs.readFileSync(path.resolve(AWS_CONFIG.cloudFrontPrivateKeyPath), 'utf8');
+const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
 
 // Generate a signed URL for accessing private resources via CloudFront (lessons, videos, PDFs)
 const generateCloudFrontSignedUrl = (resourcePath) => {
