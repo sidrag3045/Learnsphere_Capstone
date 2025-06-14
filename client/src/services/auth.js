@@ -11,11 +11,15 @@ export const registerUser = async (payload) => {
 };
 
 export const getCurrentUser = async () => {
-  const res = await axiosInstance.get('/auth/me');
-  return res.data;
+  const res = await axiosInstance.get('/auth/me', {
+    withCredentials: true, // Ensure cookies are sent with the request
+  });
+  return res.data.user;
 };
 
 export const logoutUser = async () => {
-  const res = await axiosInstance.post('/auth/logout');
-  return res.data;
+  const res = await axiosInstance.post('/auth/logout', {
+    withCredentials: true,
+  });
+  return res.data.user;
 };
