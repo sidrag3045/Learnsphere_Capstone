@@ -23,10 +23,11 @@ const getAllCoursesService = async () => {
   });
 
   return courses.map(course => {
-    const plain = course.toJSON();
-    plain.thumbnailUrl = generatePublicUrl(course.thumbnailKey);
-    return plain;
-  });
+      const plain = course.toJSON();
+      plain.thumbnailUrl = course.thumbnailKey ? generatePublicUrl(course.thumbnailKey) : null;
+      console.log('Course:', plain);
+      return plain;
+    });
 };
 
 const getCourseByIdService = async (id) => {
@@ -41,7 +42,7 @@ const getCourseByIdService = async (id) => {
 
   if (!course) throw new Error('Course not found');
   const plain = course.toJSON();
-  plain.thumbnailUrl = generatePublicUrl(course.thumbnailKey);
+  plain.thumbnailUrl = course.thumbnailKey ? generatePublicUrl(course.thumbnailKey) : null;
   return plain;
 };
 
@@ -59,7 +60,7 @@ const getCoursesByInstructorService = async (instructorId) => {
 
   return courses.map(course => {
     const plain = course.toJSON();
-    plain.thumbnailUrl = generatePublicUrl(course.thumbnailKey);
+    plain.thumbnailUrl = course.thumbnailKey ? generatePublicUrl(course.thumbnailKey) : null;
     return plain;
   });
 };

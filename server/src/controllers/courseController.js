@@ -19,6 +19,7 @@ const createCourse = async (req, res) => {
 const getAllCourses = async (req, res) => {
   try {
     const courses = await getAllCoursesService();
+    console.log('Fetched courses:', courses);
     res.status(200).json(courses);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
