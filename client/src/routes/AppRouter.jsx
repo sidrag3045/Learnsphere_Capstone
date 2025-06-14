@@ -24,27 +24,20 @@ const AppRouter = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: '/',
-    element: (
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: 'home',
-        element: <Home />,
-      },
-      {
-        path: 'explore',
-        element: <ExploreCourses />,
-      },
-      {
-        path: 'profile',
-        element: <Profile />,
-      },
-    ],
-  },
+  path: '/',
+  element: <ProtectedRoute />,
+  children: [
+    {
+      path: '/',
+      element: <Layout />, // ✅ Mount Layout here so it's rendered
+      children: [
+        { path: 'home', element: <Home /> },
+        { path: 'explore', element: <ExploreCourses /> },
+        { path: 'profile', element: <Profile /> }
+      ]
+    }
+  ]
+}
   // { path: '*', element: <NotFound /> }
 ]);
 

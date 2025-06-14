@@ -8,6 +8,9 @@ const ProtectedRoute = ({ allowedRoles }) => {
   const { user } = useSelector((state) => state.auth);
   const [checked, setChecked] = useState(false);
 
+  console.log("✅ ProtectedRoute mounted, user:", user);
+
+
   useEffect(() => {
     const verify = async () => {
       try {

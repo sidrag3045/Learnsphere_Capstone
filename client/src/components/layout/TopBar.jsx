@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-const TopBar = () => {
+const Topbar = () => {
   const { user } = useSelector((state) => state.auth);
 
   return (
@@ -13,4 +13,6 @@ const TopBar = () => {
   );
 };
 
-export default TopBar;
+
+
+export default Topbar;

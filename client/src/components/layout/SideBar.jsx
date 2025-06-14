@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { FaHome, FaBookOpen, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
-const SideBar = () => {
+const Sidebar = () => {
   const menuItems = [
     { name: 'Home', path: '/home', icon: <FaHome /> },
     { name: 'Explore', path: '/explore', icon: <FaBookOpen /> },
@@ -47,4 +47,5 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+
+export default Sidebar;
