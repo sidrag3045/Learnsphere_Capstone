@@ -1,7 +1,11 @@
 const app = require('./app');
 const loadDatabase = require('./loaders/database');
+const dotenv = require('dotenv');
 
-const PORT = process.env.SERVER_PORT || 5000;
+// Load environment variables from .env file
+dotenv.config();
+
+const PORT = process.env.SERVER_PORT;
 
 async function startServer() {
   try {
