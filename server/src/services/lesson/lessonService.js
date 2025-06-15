@@ -2,7 +2,7 @@ const { Lesson, Module, Enrollment, Course } = require('../../models');
 const { verifyModuleOwnership } = require('../../utils/resourceAuthorisation');
 
 // CloudFront for signed content delivery
-const { generateCloudFrontSignedUrl } = require('../aws/cloudfrontService');
+const { generatePublicUrl } = require('../aws/cloudfrontService');
 
 // S3 for upload operations
 const { generateUploadSignedUrl } = require('../aws/s3Service');
@@ -104,7 +104,7 @@ const getLessonWithSignedUrlService = async (lessonId, userId) => {
   const enrolled = await Enrollment.findOne({ where: { userId, courseId } });
   if (!enrolled) throw new Error('You are not enrolled in this course');
 
-  const signedUrl = lesson.s3Key ? generateCloudFrontSignedUrl(lesson.s3Key) : null;
+  const signedUrl = lesson.s3Key ? generatePublicUrl(lesson.s3Key) : null;
   console.log('Generated signed URL:', signedUrl);
 
   return {

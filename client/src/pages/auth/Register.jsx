@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerThunk } from '../../store/auth/test';
 import AuthNavBar from '../../components/AuthNavbar';
+import registerIllustration from '../../assets/illustration.svg';
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -36,7 +37,7 @@ const Register = () => {
       <div className="flex w-full max-w-6xl shadow-lg rounded-lg overflow-hidden">
         {/* Optional Left Illustration */}
         <div className="hidden md:flex w-1/2 bg-gray-50 justify-center items-center p-8">
-          <img src="/illustration.svg" alt="signup visual" className="max-h-[400px]" />
+          <img src={registerIllustration} alt="signup visual" className="max-h-[400px]" />
         </div>
 
         {/* Right Side Form */}

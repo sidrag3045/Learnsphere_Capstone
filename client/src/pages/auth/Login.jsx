@@ -4,7 +4,7 @@ import { loginThunk } from '../../store/auth/test';
 import { useNavigate } from 'react-router-dom';
 import AuthNavbar from '../../components/AuthNavbar';
 import { Link } from 'react-router-dom';
-
+import loginIllustration from '../../assets/illustration.svg';
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const Login = () => {
         <div className="flex w-full max-w-6xl shadow-lg rounded-lg overflow-hidden">
           {/* Optional Left Illustration */}
           <div className="hidden md:flex w-1/2 bg-gray-50 justify-center items-center p-8">
-            <img src="../assets/illustration.svg" alt="login visual" className="max-h-[400px]" />
+            <img src={loginIllustration} alt="login visual" className="max-h-[400px]" />
           </div>
 
           {/* Right Side Form */}

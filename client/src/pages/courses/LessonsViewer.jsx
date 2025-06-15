@@ -15,7 +15,9 @@ const LessonViewer = () => {
     const fetchLesson = async () => {
       try {
         const data = await getLessonContent(lessonId); // GET /lessons/:id/content
-        setLesson(data);
+        console.log('Lesson Data:', data);
+
+        setLesson(data.lesson);
       } catch (err) {
         console.error('Error loading lesson:', err);
         setError(err?.response?.data?.message || 'Failed to load lesson');
