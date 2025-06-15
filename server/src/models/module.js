@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'moduleId',
         as: 'lessons'
       });
+
+      Module.hasMany(models.LessonProgress, {
+        foreignKey: 'moduleId',
+        as: 'progressRecords'
+      });
     }
   }
 

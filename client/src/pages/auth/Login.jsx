@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginThunk } from '../../store/authSlice';
+import { loginThunk } from '../../store/auth/test';
 import { useNavigate } from 'react-router-dom';
 import AuthNavbar from '../../components/AuthNavbar';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await dispatch(loginThunk(form)).unwrap();
-      navigate('/explore');
+      navigate('/dashboard/student/explore');
     } catch (err) {
       alert(err.message || 'Login failed');
     }
@@ -31,7 +31,7 @@ const Login = () => {
         <div className="flex w-full max-w-6xl shadow-lg rounded-lg overflow-hidden">
           {/* Optional Left Illustration */}
           <div className="hidden md:flex w-1/2 bg-gray-50 justify-center items-center p-8">
-            <img src="/illustration.svg" alt="login visual" className="max-h-[400px]" />
+            <img src="../assets/illustration.svg" alt="login visual" className="max-h-[400px]" />
           </div>
 
           {/* Right Side Form */}

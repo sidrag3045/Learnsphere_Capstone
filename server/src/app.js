@@ -29,6 +29,7 @@ const courseRoutes = require('./routes/course.routes');
 const moduleRoutes = require('./routes/module.routes');
 const lessonRoutes = require('./routes/lesson.routes');
 const enrollmentRoutes = require('./routes/enrollment.routes');
+const progressRoutes = require('./routes/progress.routes');
 
 // Using routes
 app.use('/api/auth', authRoutes);
@@ -36,6 +37,7 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/modules', moduleRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/progress', progressRoutes);
 
 // Basic 404 - Not Found handler
 app.use((req, res) => {

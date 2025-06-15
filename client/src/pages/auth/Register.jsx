@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { registerThunk } from '../../store/authSlice';
+import { registerThunk } from '../../store/auth/test';
 import AuthNavBar from '../../components/AuthNavbar';
 
 const Register = () => {

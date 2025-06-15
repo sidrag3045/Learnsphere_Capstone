@@ -4,6 +4,10 @@ import './index.css';
 import App from './App.jsx';
 import { Provider } from 'react-redux';
 import store from './store';
+import { getInitialDarkMode, setDarkMode } from './utils/themeUtils';
+
+setDarkMode(getInitialDarkMode());
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

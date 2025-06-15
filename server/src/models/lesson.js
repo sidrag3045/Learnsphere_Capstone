@@ -4,10 +4,19 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Lesson extends Model {
     static associate(models) {
+
+      // Lesson to Module
       Lesson.belongsTo(models.Module, {
         foreignKey: 'moduleId',
         as: 'module'
       });
+
+      // Lesson to LessonProgress
+      Lesson.hasMany(models.LessonProgress, { 
+        foreignKey: 'lessonId', 
+        as: 'progressRecords' 
+      });
+
     }
   }
 

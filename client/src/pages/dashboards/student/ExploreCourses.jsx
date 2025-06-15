@@ -1,6 +1,8 @@
+// pages/dashboards/student/ExploreCourses.jsx
+
 import { useEffect, useState } from 'react';
-import { getAllCourses } from '../../services/course';
-import CourseCard from '../../components/CourseCard';
+import { getAllCourses } from '../../../services/course';
+import CourseCard from '../../../components/common/CourseCard';
 
 const ExploreCourses = () => {
   const [courses, setCourses] = useState([]);

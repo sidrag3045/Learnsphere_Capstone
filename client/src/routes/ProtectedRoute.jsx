@@ -1,24 +1,21 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { fetchUserThunk } from '../store/authSlice';
+import { fetchUserThunk } from '../store/auth/test';
 
 const ProtectedRoute = ({ allowedRoles }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [checked, setChecked] = useState(false);
 
-  console.log("✅ ProtectedRoute mounted, user:", user);
-
-
   useEffect(() => {
     const verify = async () => {
       try {
-        await dispatch(fetchUserThunk()).unwrap(); // ✅ await ensures user is set
+        await dispatch(fetchUserThunk()).unwrap();
       } catch (err) {
         console.warn('User not authenticated');
       } finally {
-        setChecked(true); // ✅ ensure auth check is complete
+        setChecked(true);
       }
     };
     verify();

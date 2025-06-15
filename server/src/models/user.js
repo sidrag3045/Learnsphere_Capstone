@@ -31,6 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'courseId',
         as: 'enrolledCourses'
       });
+
+      // User to LessonProgress
+      User.hasMany(models.LessonProgress, { 
+        foreignKey: 'userId', 
+        as: 'lessonProgress',
+        onDelete: 'CASCADE'
+      });
+
     }
   }
   User.init({

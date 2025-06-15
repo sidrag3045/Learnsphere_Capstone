@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'enrollments',
         onDelete: 'CASCADE'
       });
+
+      // Course to LessonProgress
+      Course.hasMany(models.LessonProgress, { 
+        foreignKey: 'courseId', 
+        as: 'progressRecords' 
+      });
     }
   }
 

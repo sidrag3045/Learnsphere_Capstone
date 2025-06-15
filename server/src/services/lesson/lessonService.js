@@ -26,7 +26,7 @@ const getLessonByIdService = async (id) => {
 const getLessonsByModuleIdService = async (moduleId) => {
   const module = await Module.findByPk(moduleId);
   if (!module) throw new Error('Module not found');
-  
+
   return await Lesson.findAll({ where: { moduleId } });
 };
 
@@ -91,16 +91,21 @@ const getLessonWithSignedUrlService = async (lessonId, userId) => {
   const lesson = await Lesson.findByPk(lessonId, {
     include: {
       model: Module,
-      include: { model: Course }
+      as: 'module',
+      include: {
+        model: Course,
+        as: 'course'
+      }
     }
   });
   if (!lesson) throw new Error('Lesson not found');
 
-  const courseId = lesson.Module?.Course?.id;
+  const courseId = lesson.module?.course?.id;
   const enrolled = await Enrollment.findOne({ where: { userId, courseId } });
   if (!enrolled) throw new Error('You are not enrolled in this course');
 
   const signedUrl = lesson.s3Key ? generateCloudFrontSignedUrl(lesson.s3Key) : null;
+  console.log('Generated signed URL:', signedUrl);
 
   return {
     id: lesson.id,
@@ -123,8 +128,10 @@ const uploadSignedUrlService = async (lessonId, instructorId, contentType, exten
   const lesson = await Lesson.findByPk(lessonId, {
     include: {
       model: Module,
+      as: 'module',
       include: {
         model: Course,
+        as: 'course',
         where: { createdBy: instructorId }
       }
     }
@@ -132,7 +139,7 @@ const uploadSignedUrlService = async (lessonId, instructorId, contentType, exten
 
   if (!lesson) throw new Error('Unauthorized or lesson not found');
 
-  const s3Key = `uploads/course_${lesson.Module.Course.id}/module_${lesson.Module.id}/lesson_${lesson.id}.${extension}`;
+  const s3Key = `uploads/course_${lesson.module.course.id}/module_${lesson.module.id}/lesson_${lesson.id}.${extension}`;
 
   const uploadUrl = await generateUploadSignedUrl(s3Key, contentType);
 

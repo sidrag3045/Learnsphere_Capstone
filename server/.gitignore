@@ -13,3 +13,4 @@
 
 # Ignore cloudfront Key
 /src/config/cloudfront-private-key.pem
+/src/config/cloudfront-public-key.pem
